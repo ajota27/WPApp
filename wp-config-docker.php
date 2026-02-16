@@ -5,6 +5,11 @@ define('DB_USER', getenv('WORDPRESS_DB_USER'));
 define('DB_PASSWORD', getenv('WORDPRESS_DB_PASSWORD'));
 define('DB_HOST', getenv('WORDPRESS_DB_HOST'));
 
+// Forzar SSL en DigitalOcean Managed Database
+if (getenv('WORDPRESS_DB_SSL')) {
+    define('MYSQL_CLIENT_FLAGS', MYSQLI_CLIENT_SSL);
+}
+
 // Charset
 define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
