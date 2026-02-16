@@ -1,0 +1,7 @@
+.git
+.gitignore
+node_modules
+backup
+*.log
+.env
+.DS_Store
