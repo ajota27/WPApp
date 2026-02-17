@@ -6,7 +6,7 @@ COPY wp-content /var/www/html/wp-content
 COPY wp-config-sample.php /var/www/html/wp-config.php
 
 # Opcional: PHP.ini personalizado
-COPY php.ini /usr/local/etc/php/conf.d/
+#COPY php.ini /usr/local/etc/php/conf.d/
 
 # Ajustamos permisos
 RUN chown -R www-data:www-data /var/www/html/wp-content
