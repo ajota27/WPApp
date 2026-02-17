@@ -20,7 +20,7 @@ define('SECURE_AUTH_KEY', getenv('WORDPRESS_SECURE_AUTH_KEY'));
 define('LOGGED_IN_KEY', getenv('WORDPRESS_LOGGED_IN_KEY'));
 define('NONCE_KEY', getenv('WORDPRESS_NONCE_KEY'));
 
-$table_prefix = 'wpfa_';
+$table_prefix = 'wp_';
 
 // Seguridad
 define('WP_DEBUG', false);
