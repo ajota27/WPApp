@@ -2,8 +2,8 @@
 FROM wordpress:6.5-php8.2-apache
 
 # Copiamos solo wp-content y .htaccess
-COPY ../wp-content /var/www/html/wp-content
-COPY ../.htaccess /var/www/html/.htaccess
+COPY wp-content /var/www/html/wp-content
+COPY wp-config-sample.php /var/www/html/wp-config.php
 
 # Opcional: PHP.ini personalizado
 COPY php.ini /usr/local/etc/php/conf.d/
