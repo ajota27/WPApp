@@ -1,5 +1,14 @@
+# Archivos sensibles
+wp-config.php
 .env
+
+# Uploads y temporales
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
 *.log
-backup/
-node_modules
+*.sql
+
+# Sistema operativo
 .DS_Store
+Thumbs.db
