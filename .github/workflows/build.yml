@@ -1,23 +1,42 @@
 name: Build
+
 on:
   push:
     branches:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   sonarqube:
-    name: SonarQube
+    name: SonarCloud Analysis
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarQube Scan
+          fetch-depth: 0
+
+      - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       - name: Check Quality Gate
         uses: SonarSource/sonarcloud-quality-gate-action@v1
         with:
           sonar-token: ${{ secrets.SONAR_TOKEN }}
+
+  deploy:
+    name: Deploy to DigitalOcean
+    needs: sonarqube
+    runs-on: ubuntu-latest
+    if: success()
+
+    steps:
+      - name: Trigger DigitalOcean Deployment
+        run: |
+          curl -X POST \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+          "https://api.digitalocean.com/v2/apps/YOUR_APP_ID/deployments"
