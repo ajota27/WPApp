@@ -1,28 +1,18 @@
-# Imagen oficial (estable y mantenida)
+# Usamos la imagen oficial de WordPress con PHP 8.2 y Apache
 FROM wordpress:6.5-php8.2-apache
 
-# Evita mostrar versión de Apache
-RUN echo "ServerTokens Prod" >> /etc/apache2/conf-available/security.conf \
- && echo "ServerSignature Off" >> /etc/apache2/conf-available/security.conf \
- && a2enconf security
-
-# Deshabilita módulos innecesarios
-RUN a2dismod autoindex
-
-# Copiamos SOLO el contenido necesario del proyecto
+# Copiamos solo wp-content y .htaccess
 COPY wp-content /var/www/html/wp-content
+COPY wp-config-sample.php /var/www/html/wp-config.php
 
-# PHP endurecido
-COPY php.ini /usr/local/etc/php/conf.d/custom.ini
+# Opcional: PHP.ini personalizado
+COPY php.ini /usr/local/etc/php/conf.d/
 
-# Permisos mínimos necesarios
-RUN chown -R www-data:www-data /var/www/html/wp-content \
- && find /var/www/html/wp-content -type d -exec chmod 755 {} \; \
- && find /var/www/html/wp-content -type f -exec chmod 644 {} \;
+# Ajustamos permisos
+RUN chown -R www-data:www-data /var/www/html/wp-content
 
-# Ejecutar como usuario no-root
-USER www-data
-
+# Exponemos puerto 80
 EXPOSE 80
 
+# Comando por defecto (ya viene en la imagen de WordPress)
 CMD ["apache2-foreground"]
