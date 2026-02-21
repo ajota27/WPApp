@@ -17,13 +17,3 @@ EXPOSE 80
 
 # Comando por defecto (ya viene en la imagen de WordPress)
 CMD ["apache2-foreground"]
-
-#FROM wordpress:6.5-php8.2-apache
-
-# Crear usuario no-root
-#RUN useradd -u 1001 -m wordpressuser
-
-# Cambiar permisos
-#RUN chown -R wordpressuser:wordpressuser /var/www/html
-
-#USER wordpressuser
