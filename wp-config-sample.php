@@ -20,6 +20,23 @@ define('SECURE_AUTH_SALT', getenv('WP_SECURE_AUTH_SALT'));
 define('LOGGED_IN_SALT',   getenv('WP_LOGGED_IN_SALT'));
 define('NONCE_SALT',       getenv('WP_NONCE_SALT'));
 
+// Deshabilitar edición de archivos desde admin
+define('DISALLOW_FILE_EDIT', true);
+
+// Evita instalación de plugins desde panel (opcional si es académico)
+define('DISALLOW_FILE_MODS', true);
+
+// Fuerza HTTPS si usas proxy de DigitalOcean
+define('FORCE_SSL_ADMIN', true);
+
+// Oculta errores en producción
+define('WP_DEBUG_DISPLAY', false);
+@ini_set('display_errors', 0);
+
+// Cookies más seguras
+define('COOKIE_SECURE', true);
+define('COOKIE_HTTPONLY', true);
+
 // Prefijos
 $table_prefix = 'wpfa_';
 
