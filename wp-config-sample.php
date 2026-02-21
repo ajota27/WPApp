@@ -27,7 +27,7 @@ $table_prefix = 'wpfa_';
 define('WP_DEBUG', false);
 
 //Evita que un atacante modifique plugins si logra acceso admin
-define('DISALLOW_FILE_EDIT', true);
+//define('DISALLOW_FILE_EDIT', true);
 
 // Absolute path
 if ( !defined('ABSPATH') )
