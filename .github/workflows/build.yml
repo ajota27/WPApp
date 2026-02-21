@@ -1,4 +1,4 @@
-name: Build
+name: Secure CI/CD Pipeline
 
 on:
   push:
@@ -21,22 +21,6 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-      - name: Check Quality Gate
-        uses: SonarSource/sonarcloud-quality-gate-action@v1
         with:
-          sonar-token: ${{ secrets.SONAR_TOKEN }}
-
-  deploy:
-    name: Deploy to DigitalOcean
-    needs: sonarqube
-    runs-on: ubuntu-latest
-    if: success()
-
-    steps:
-      - name: Trigger DigitalOcean Deployment
-        run: |
-          curl -X POST \
-          -H "Content-Type: application/json" \
-          -H "Authorization: Bearer ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
-          "https://api.digitalocean.com/v2/apps/cbae531c-d030-4ead-8336-04af300e63b7/deployments"
+          args: >
+            -Dsonar.qualitygate.wait=true
