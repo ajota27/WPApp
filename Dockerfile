@@ -1,22 +1,19 @@
-# Imagen oficial (la que DigitalOcean soporta bien)
+#CONFIGURACION INSEGURA
+# Usamos la imagen oficial de WordPress con PHP 8.2 y Apache
 FROM wordpress:6.5-php8.2-apache
 
-# Hardening Apache SIN cambiar usuario
-RUN echo "ServerTokens Prod" >> /etc/apache2/conf-available/security.conf \
- && echo "ServerSignature Off" >> /etc/apache2/conf-available/security.conf \
- && a2enconf security \
- && a2dismod autoindex
-
-# Copiamos solo lo necesario del proyecto
+# Copiamos solo wp-content y .htaccess
 COPY wp-content /var/www/html/wp-content
+COPY wp-config-sample.php /var/www/html/wp-config.php
 
-# PHP seguro (este archivo SI debe existir en tu repo)
-COPY php.ini /usr/local/etc/php/conf.d/custom.ini
+# Opcional: PHP.ini personalizado
+COPY php.ini /usr/local/etc/php/conf.d/
 
-# Permisos seguros (esto sí está permitido)
-RUN chown -R www-data:www-data /var/www/html/wp-content \
- && find /var/www/html/wp-content -type d -exec chmod 755 {} \; \
- && find /var/www/html/wp-content -type f -exec chmod 644 {} \;
+# Ajustamos permisos
+RUN chown -R www-data:www-data /var/www/html/wp-content
 
+# Exponemos puerto 80
 EXPOSE 80
+
+# Comando por defecto (ya viene en la imagen de WordPress)
 CMD ["apache2-foreground"]
