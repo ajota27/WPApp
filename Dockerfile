@@ -1,19 +1,28 @@
-#CONFIGURACION INSEGURA
-# Usamos la imagen oficial de WordPress con PHP 8.2 y Apache
+# Imagen oficial (estable y mantenida)
 FROM wordpress:6.5-php8.2-apache
 
-# Copiamos solo wp-content y .htaccess
+# Evita mostrar versión de Apache
+RUN echo "ServerTokens Prod" >> /etc/apache2/conf-available/security.conf \
+ && echo "ServerSignature Off" >> /etc/apache2/conf-available/security.conf \
+ && a2enconf security
+
+# Deshabilita módulos innecesarios
+RUN a2dismod autoindex
+
+# Copiamos SOLO el contenido necesario del proyecto
 COPY wp-content /var/www/html/wp-content
-COPY wp-config-sample.php /var/www/html/wp-config.php
 
-# Opcional: PHP.ini personalizado
-COPY php.ini /usr/local/etc/php/conf.d/
+# PHP endurecido
+COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 
-# Ajustamos permisos
-RUN chown -R www-data:www-data /var/www/html/wp-content
+# Permisos mínimos necesarios
+RUN chown -R www-data:www-data /var/www/html/wp-content \
+ && find /var/www/html/wp-content -type d -exec chmod 755 {} \; \
+ && find /var/www/html/wp-content -type f -exec chmod 644 {} \;
 
-# Exponemos puerto 80
+# Ejecutar como usuario no-root
+USER www-data
+
 EXPOSE 80
 
-# Comando por defecto (ya viene en la imagen de WordPress)
 CMD ["apache2-foreground"]
