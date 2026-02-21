@@ -1,19 +1,11 @@
-#CONFIGURACION INSEGURA
-# Usamos la imagen oficial de WordPress con PHP 8.2 y Apache
+# Imagen oficial compatible con App Platform
 FROM wordpress:6.5-php8.2-apache
 
-# Copiamos solo wp-content y .htaccess
+# Solo copiamos contenido personalizado (NO wp-config)
 COPY wp-content /var/www/html/wp-content
-COPY wp-config-sample.php /var/www/html/wp-config.php
 
-# Opcional: PHP.ini personalizado
-COPY php.ini /usr/local/etc/php/conf.d/
+# PHP personalizado (si necesitas ajustes)
+COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 
-# Ajustamos permisos
-RUN chown -R www-data:www-data /var/www/html/wp-content
-
-# Exponemos puerto 80
+# Exponemos puerto estándar
 EXPOSE 80
-
-# Comando por defecto (ya viene en la imagen de WordPress)
-CMD ["apache2-foreground"]
