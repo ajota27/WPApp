@@ -2,6 +2,8 @@
 # Usamos la imagen oficial de WordPress con PHP 8.2 y Apache
 FROM wordpress:6.5-php8.2-apache
 
+USER www-data
+
 # Copiamos solo wp-content y .htaccess
 COPY wp-content /var/www/html/wp-content
 COPY wp-config-sample.php /var/www/html/wp-config.php
