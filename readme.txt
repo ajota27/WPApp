@@ -1,4 +1,4 @@
-VisitPanama – WordPress Deployment
+VisitPanama – WordPress Deploymentt
 
 Este proyecto consiste en el despliegue de un sitio WordPress utilizando contenedores Docker sobre DigitalOcean App Platform, con integración CI/CD y controles básicos de seguridad.
 
